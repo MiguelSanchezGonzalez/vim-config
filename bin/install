@@ -9,7 +9,6 @@ BASEDIR='.__vim-config'
  SOFTWARE_DEPENDENCIES["git"]="git"
  SOFTWARE_DEPENDENCIES["gvim"]="vim-gtk"
  SOFTWARE_DEPENDENCIES["ag"]="silverserarcher-ag"
- SOFTWARE_DEPENDENCIES["node"]="nodejs-legacy"
 
 
 #
