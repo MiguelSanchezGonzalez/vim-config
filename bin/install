@@ -1,0 +1,88 @@
+#!/bin/bash
+
+BASEDIR='.__vim-config'
+
+ declare -A SOFTWARE_DEPENDENCIES
+
+ # [ { "executable": "package" }, ... ]
+ SOFTWARE_DEPENDENCIES["vim"]="vim"
+ SOFTWARE_DEPENDENCIES["git"]="git"
+ SOFTWARE_DEPENDENCIES["gvim"]="vim-gtk"
+ SOFTWARE_DEPENDENCIES["ag"]="silverserarcher-ag"
+ SOFTWARE_DEPENDENCIES["node"]="nodejs-legacy"
+
+
+#
+# Checks if $1 is a executable file in the current path
+#
+# @param $1 Name of the executable
+#
+commandExists () {
+
+    command -v "$1" >/dev/null 2>&1
+
+    if [[ $? -eq 0 ]]; then
+        return 1
+    else
+        return 0
+    fi
+
+}
+
+quit () {
+    exit $1
+}
+
+missingDependencies () {
+
+    local unmetDependencies=()
+
+    for executable in ${!SOFTWARE_DEPENDENCIES[@]}; do
+
+        local package=${SOFTWARE_DEPENDENCIES[$executable]}
+
+        commandExists $executable
+
+        if [[ $? -eq 0 ]]; then
+            unmetDependencies+=($package)
+        fi
+
+    done
+
+    commandExists apt-get
+
+    if [[ $? -eq 1 ]]; then
+        sudo apt-get install ${unmetDependencies[@]}
+    else
+
+        echo "The following dependencies are not met:"
+        echo ""
+
+        for dependency in ${unmetDependencies[@]}; do
+            echo "    * $dependency"
+        done
+
+        echo ""
+        echo "Please install them before continue."
+
+        quit 1
+
+    fi
+
+    return 0
+
+}
+
+powerlineFonts () {
+    git clone https://github.com/powerline/fonts.git
+    cd fonts
+    ./install
+    cd ..
+}
+
+missingDependencies
+
+
+if [[ $? -eq 0 ]]; then
+    powerlineFonts
+fi
