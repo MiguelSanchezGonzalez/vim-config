@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASEDIR='.__vim-config'
+BASEDIR="tmp"
 
  declare -A SOFTWARE_DEPENDENCIES
 
@@ -8,7 +8,7 @@ BASEDIR='.__vim-config'
  SOFTWARE_DEPENDENCIES["vim"]="vim"
  SOFTWARE_DEPENDENCIES["git"]="git"
  SOFTWARE_DEPENDENCIES["gvim"]="vim-gtk"
- SOFTWARE_DEPENDENCIES["ag"]="silverserarcher-ag"
+ SOFTWARE_DEPENDENCIES["ag"]="silversearcher-ag"
 
 
 #
@@ -48,11 +48,10 @@ missingDependencies () {
 
     done
 
-    commandExists apt-get
+    if [ ${#unmetDependencies[@]} -ne 0 ]; then
+        commandExists apt-get
 
-    if [[ $? -eq 1 ]]; then
-        sudo apt-get install ${unmetDependencies[@]}
-    else
+        local aptExists=$?
 
         echo "The following dependencies are not met:"
         echo ""
@@ -60,12 +59,28 @@ missingDependencies () {
         for dependency in ${unmetDependencies[@]}; do
             echo "    * $dependency"
         done
+        echo
 
-        echo ""
-        echo "Please install them before continue."
+        if [[ $aptExists -eq 1 ]]; then
 
-        quit 1
+            read -p "Would you like to install them now? (y/N) " -n 1 -r
+            echo
+            echo
 
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                quit 1
+            fi
+
+            sudo apt-get install ${unmetDependencies[@]}
+
+        else
+
+            echo
+            echo "Please install them before continue."
+
+            quit 1
+
+        fi
     fi
 
     return 0
@@ -75,13 +90,61 @@ missingDependencies () {
 powerlineFonts () {
     git clone https://github.com/powerline/fonts.git
     cd fonts
-    ./install
+    ./install.sh
     cd ..
 }
 
+vimConfig () {
+
+    if [ -d ~/.vim ] || [ -f ~/.vimrc ]; then
+
+cat << EOF
+It seems that you already have a vim configuration set up at your home
+directory.
+
+If you wish to continue, a backup of your vimrc file and vimrc folder will be
+created under your home directory inside ~/.vim-config-bak. Otherwise all
+the current config will be removed and replaced by this one.
+
+EOF
+
+        read -p "Do a back up of your current vim config? (y/N) " -n 1 -r
+
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+            mkdir ~/.vim-config-bak
+
+            cp ~/.vimrc ~/.vim-config-bak
+            cp -r ~/.vim ~/.vim-config-bak
+
+        fi
+
+        rm ~/.vimrc
+        rm -rf ~/.vim
+
+    fi
+
+    cp ../vimrc ~/.vimrc
+    mkdir ~/.vim
+
+}
+
+plug () {
+
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+    vim +PlugInstall +qall
+
+}
+
+mkdir $BASEDIR
+cd $BASEDIR
+
 missingDependencies
+powerlineFonts
+vimConfig
+plug
 
-
-if [[ $? -eq 0 ]]; then
-    powerlineFonts
-fi
+cd ..
+rm -rf $BASEDIR
