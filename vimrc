@@ -65,6 +65,34 @@
 
         " }}}
 
+        " Unite {{{
+
+            " Use ag in unite grep source.
+            if executable('ag')
+                let g:unite_source_grep_command = 'ag'
+                let g:unite_source_grep_default_opts =  '-i --vimgrep' .
+                    \ ' --follow --hidden --ignore .git'
+                let g:unite_source_rec_async_command = [ 'ag', '--follow',
+                    \ '--nocolor', '--nogroup', '--hidden', '-g', '' ]
+                let g:unite_source_grep_recursive_opt = ''
+            endif
+
+            call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+            " Update the buffers every 250 ms
+            let g:unite_update_time = 250
+            " Always display the unite buffer in the top left corner
+            let g:unite_split_rule = 'topleft'
+            " Height of the unite window
+            let g:unite_winheight = 10
+            " Show short source names in the uite window.
+            let g:unite_enable_short_source_names = 1
+
+            " Store all the data produced by unite under the .vim directory
+            let g:unite_data_directory = '~/.vim/unite'
+
+        " }}}
+
     " }}}
 
 " }}}
@@ -395,6 +423,8 @@
 
 " Mappings {{{
 
+    let mapleader = '\'
+
     " Push me to be quick between mapping and keycodes
     set timeout
     set ttimeout
@@ -433,7 +463,7 @@
     " }}}
 
     " Useful mappings {{{
-    "
+
         " IMO hex mode is useless so let's map something more useful to Q
         nnoremap Q gq
         " Quick access to the vimrc
@@ -473,6 +503,20 @@
         nnoremap <C-a> :%y+<Cr>
 
     " }}}
+
+
+    " Unite {{{
+
+        " Use fuzzy finding in async mode
+        nnoremap <silent> <leader>p :<C-u>Unite -start-insert file_rec/async:!<Cr>
+        " Grep files in the current directory
+        nnoremap <silent> <leader>g :<C-u>Unite grep:% -buffer-name=Grep
+                        \ -auto-preview<Cr>
+        " Search in the current buffers
+        nnoremap <silent> <leader>b :<C-u>Unite buffer<Cr>
+
+    " }}}
+
 " }}}
 
 
