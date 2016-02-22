@@ -34,7 +34,7 @@
 
     call plug#end()
 
-    " Configuration {{
+    " Configuration {{{
 
         " Airline {{{
 
@@ -79,25 +79,37 @@
 
             call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-            " Update the buffers every 250 ms
-            let g:unite_update_time = 250
-            " Always display the unite buffer in the top left corner
-            let g:unite_split_rule = 'topleft'
-            " Height of the unite window
-            let g:unite_winheight = 10
-            " Show short source names in the uite window.
-            let g:unite_enable_short_source_names = 1
+            let g:unite_source_buffer_time_format = "%H:%M:%S - %d/%m/%y"
+
+            " Do not cache any file
+            let g:unite_source_rec_min_cache_files = 0
+
+            " Position the cursor at the center of the screen after selecting a
+            " kind
+            let g:unite_kind_jump_list_after_jump_scroll = 50
+
 
             " Store all the data produced by unite under the .vim directory
             let g:unite_data_directory = '~/.vim/unite'
+
+            " Default options for all buffers
+            call unite#custom#profile( 'default', 'context', {
+                \ 'winheight': 10,
+                \ 'split_rule': 'topleft',
+                \ 'update_time': 250,
+                \ 'enable_short_source_names': 1
+            \ } )
+
+            " Rules applied for all unite buffers with name 'Grep'
+            call unite#custom#profile( 'Grep', 'context', {
+                \ 'auto_preview': 1
+            \ } )
 
         " }}}
 
     " }}}
 
 " }}}
-
-
 
 
 " Moving around {{{
@@ -507,13 +519,23 @@
 
     " Unite {{{
 
+        nnoremap [ugrep] <Nop>
+        nmap <leader>g [ugrep]
+
+        " Current project
+        nnoremap <silent> [ugrep]f :Unite grep:! -buffer-name=Grep<Cr>
+        " Current file
+        nnoremap <silent> [ugrep]b :Unite grep:% -buffer-name=Grep<Cr>
+        " Find current word in folder
+        nnoremap <silent> [ugrep]* :UniteWithCursorWord grep:%
+                        \ -buffer-name=Grep<Cr>
+
         " Use fuzzy finding in async mode
-        nnoremap <silent> <leader>p :<C-u>Unite -start-insert file_rec/async:!<Cr>
-        " Grep files in the current directory
-        nnoremap <silent> <leader>g :<C-u>Unite grep:% -buffer-name=Grep
-                        \ -auto-preview<Cr>
+        nnoremap <silent> <leader>p :<C-u>Unite -start-insert
+                        \ file_rec/async:!<Cr>
+
         " Search in the current buffers
-        nnoremap <silent> <leader>b :<C-u>Unite buffer<Cr>
+        nnoremap <silent> <leader>b :<C-u>Unite buffer -start-insert<Cr>
 
     " }}}
 
