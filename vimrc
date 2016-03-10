@@ -32,6 +32,9 @@
         Plug 'Shougo/vimproc.vim', { 'do': 'make' }
         Plug 'Shougo/unite.vim'
 
+        " Custom icons
+        Plug 'ryanoasis/vim-devicons'
+
     call plug#end()
 
     " Configuration {{{
