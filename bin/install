@@ -100,8 +100,7 @@ fonts () {
 
     mkdir -p $FONTDIR && cd $FONTDIR
 
-    curl -o "UbuntuMonoPowerline.ttf"\ 
-        https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20derivative%20Powerline%20Nerd%20Font%20Complete%20Mono.ttf
+    curl -o "Knack.ttf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Hack/Regular/complete/Knack%20Regular%20Nerd%20Font%20Complete.ttf
 
     fc-cache -f $FONTDIR
 
