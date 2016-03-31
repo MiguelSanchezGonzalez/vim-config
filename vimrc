@@ -35,6 +35,10 @@
         " Custom icons
         Plug 'ryanoasis/vim-devicons'
 
+        " Git
+        Plug 'tpope/vim-fugitive'
+        Plug 'airblade/vim-gitgutter'
+
     call plug#end()
 
     " Configuration {{{
@@ -107,6 +111,14 @@
             call unite#custom#profile( 'Grep', 'context', {
                 \ 'auto_preview': 1
             \ } )
+
+        " }}}
+
+
+        " GitGutter {{{
+
+            " Disable all key bindings provided by this plugin
+            let g:gitgutter_map_keys = 0
 
         " }}}
 
@@ -420,7 +432,7 @@
     set wildignore+=*.luac,*.pyc
     set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest
     set wildignore+=*.spl,*.sw
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+    set wildignore+=*/.hg/*,*/.svn/*
     set wildignore+=*/node_modules/*,*/bower_components/*
 
 " }}}
