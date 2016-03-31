@@ -517,6 +517,10 @@
         " Select and copy all the text in the current buffer
         nnoremap <C-a> :%y+<Cr>
 
+        " Automatic open and close braces
+        inoremap { {}<Esc>i
+        inoremap < <><Esc>i
+
     " }}}
 
 
