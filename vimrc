@@ -556,6 +556,12 @@
         " Search in the current buffers
         nnoremap <silent> <leader>b :<C-u>Unite buffer -start-insert<Cr>
 
+        " Unite / Fugitive
+        nnoremap [ugit] <Nop>
+        nnoremap <leader>g [ugit]
+
+        nnoremap <silent> [ugit] <Nop>
+
     " }}}
 
 " }}}
