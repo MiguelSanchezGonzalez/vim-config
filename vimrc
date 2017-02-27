@@ -27,11 +27,6 @@
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
 
-        " Unite
-        " Added as dependency for Unite#file_rec/async
-        Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-        Plug 'Shougo/unite.vim'
-
         " Custom icons
         Plug 'ryanoasis/vim-devicons'
 
@@ -46,7 +41,7 @@
         " Airline {{{
 
             " Lets choose what we really want to load
-            let g:airline_extensions = [ 'whitespace', 'tabline', 'unite' ]
+            let g:airline_extensions = [ 'whitespace', 'tabline' ]
 
             " Use a custom theme in case we are running the gui version since
             " the default one looks pretty nice in terminal
@@ -71,49 +66,6 @@
             let g:airline#extensions#tabline#tab_nr_type = 2
 
         " }}}
-
-        " Unite {{{
-
-            " Use ag in unite grep source.
-            if executable('ag')
-                let g:unite_source_grep_command = 'ag'
-                let g:unite_source_grep_default_opts =  '-i --vimgrep' .
-                    \ ' --follow --hidden --ignore .git'
-                let g:unite_source_rec_async_command = [ 'ag', '--follow',
-                    \ '--nocolor', '--nogroup', '--hidden', '-g', '' ]
-                let g:unite_source_grep_recursive_opt = ''
-            endif
-
-            call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-            let g:unite_source_buffer_time_format = "%H:%M:%S - %d/%m/%y"
-
-            " Do not cache any file
-            let g:unite_source_rec_min_cache_files = 0
-
-            " Position the cursor at the center of the screen after selecting a
-            " kind
-            let g:unite_kind_jump_list_after_jump_scroll = 50
-
-
-            " Store all the data produced by unite under the .vim directory
-            let g:unite_data_directory = '~/.vim/unite'
-
-            " Default options for all buffers
-            call unite#custom#profile( 'default', 'context', {
-                \ 'winheight': 10,
-                \ 'split_rule': 'topleft',
-                \ 'update_time': 250,
-                \ 'enable_short_source_names': 1
-            \ } )
-
-            " Rules applied for all unite buffers with name 'Grep'
-            call unite#custom#profile( 'Grep', 'context', {
-                \ 'auto_preview': 1
-            \ } )
-
-        " }}}
-
 
         " GitGutter {{{
 
@@ -536,27 +488,6 @@
     " }}}
 
 
-    " Unite {{{
-
-        nnoremap [ugrep] <Nop>
-        nmap <leader>g [ugrep]
-
-        " Current project
-        nnoremap <silent> [ugrep]f :Unite grep:! -buffer-name=Grep<Cr>
-        " Current file
-        nnoremap <silent> [ugrep]b :Unite grep:% -buffer-name=Grep<Cr>
-        " Find current word in folder
-        nnoremap <silent> [ugrep]* :UniteWithCursorWord grep:%
-                        \ -buffer-name=Grep<Cr>
-
-        " Use fuzzy finding in async mode
-        nnoremap <silent> <leader>p :<C-u>Unite -start-insert
-                        \ file_rec/async:!<Cr>
-
-        " Search in the current buffers
-        nnoremap <silent> <leader>b :<C-u>Unite buffer -start-insert<Cr>
-
-    " }}}
 
 " }}}
 
