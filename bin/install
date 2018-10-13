@@ -100,10 +100,9 @@ fonts () {
 
     mkdir -p $FONTDIR && cd $FONTDIR
 
-    curl -o "Knack.ttf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Hack/Regular/complete/Knack%20Regular%20Nerd%20Font%20Complete.ttf
+    curl -o "Knack.ttf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf
 
     fc-cache -f $FONTDIR
-
 }
 
 

@@ -236,7 +236,7 @@
     if has('gui_running')
 
         " My current font
-        set guifont=Knack\ \Nerd\ Font\ 9
+        set guifont=Hack\ Nerd\ Font\ 10
         " Enable autoselect in visual and modeless selection and show console
         " dialogs instead of popups.
         set guioptions=aAc
