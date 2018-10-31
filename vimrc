@@ -441,6 +441,13 @@
 
     " }}}
 
+    " Terminal {{{
+
+        " Switch to normal mode in a more convinient way
+        tnoremap <Esc> <C-W>N
+
+    " }}}
+
     " Useful mappings {{{
 
         " IMO hex mode is useless so let's map something more useful to Q
