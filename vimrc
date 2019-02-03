@@ -34,6 +34,9 @@
         Plug 'tpope/vim-fugitive'
         Plug 'airblade/vim-gitgutter'
 
+        " Denite
+        Plug 'Shougo/denite.nvim'
+
     call plug#end()
 
     " Configuration {{{
@@ -71,6 +74,29 @@
 
             " Disable all key bindings provided by this plugin
             let g:gitgutter_map_keys = 0
+
+        " }}}
+
+        " Denite {{{
+
+            call denite#custom#var('file/rec', 'command',
+            \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+
+            call denite#custom#var('grep', 'command', ['ag'])
+            call denite#custom#var('grep', 'default_opts',
+                    \ ['-i', '--vimgrep'])
+            call denite#custom#var('grep', 'recursive_opts', [])
+            call denite#custom#var('grep', 'pattern_opt', [])
+            call denite#custom#var('grep', 'separator', ['--'])
+            call denite#custom#var('grep', 'final_opts', [])
+
+        " }}}
+
+        " Netrw {{{
+
+            " Disable the plugin
+            let g:loaded_netrw = 1
+            let g:loaded_netrwPlugin = 1
 
         " }}}
 
@@ -490,8 +516,49 @@
 
     " }}}
 
-" }}}
+    " Plugins {{{
 
+        " Denite {{{
+
+            nnoremap <leader>d :Denite
+
+            " Quick access to file/rec search
+            nnoremap <leader>p :Denite file/rec<Cr>
+
+            call denite#custom#map(
+                \ 'insert',
+                \ '<C-a>',
+                \ '<denite:move_caret_to_head>'
+            \)
+            call denite#custom#map(
+                \ 'insert',
+                \ '<C-e>',
+                \ '<denite:move_caret_to_tail>'
+            \)
+
+            call denite#custom#map(
+                \ 'insert',
+                \ '<C-h>',
+                \ '<denite:move_caret_to_left>',
+            \)
+
+            call denite#custom#map(
+                \ 'insert',
+                \ '<C-l>',
+                \ '<denite:move_caret_to_right>',
+            \)
+
+            call denite#custom#map(
+                \ 'insert',
+                \ '<C-p>',
+                \ 'denite:map-paste_from_default_register'
+            \ )
+
+        " }}}
+
+    " }}}
+
+" }}}
 
 " Autocommands {{{
 
