@@ -34,6 +34,11 @@
         Plug 'tpope/vim-fugitive'
         Plug 'airblade/vim-gitgutter'
 
+        " JavaScript
+        Plug 'pangloss/vim-javascript'
+        Plug 'mxw/vim-jsx'
+        Plug 'styled-components/vim-styled-components'
+
         " Denite
         Plug 'Shougo/denite.nvim'
 
@@ -166,9 +171,6 @@
 
 " File management {{{
 
-    " Set the current directory to the directory containing the actual file. For
-    " me is the most intuitive way to work.
-    set autochdir
     " Reload the current file automatically if has been modified outside of Vim
     set autoread
     " Do not write the contents of the file until I want to do it.
@@ -261,8 +263,13 @@
     " Only set this options if graphical vim is running.
     if has('gui_running')
 
-        " My current font
-        set guifont=Hack\ Nerd\ Font\ 10
+        " Custom font mind the setup is different for macos and linux
+        if has( 'macunix' )
+            set guifont=HackNerdFontComplete-Regular:h11
+        else
+            set guifont=Hack\ Nerd\ Font\ 10
+        endif
+
         " Enable autoselect in visual and modeless selection and show console
         " dialogs instead of popups.
         set guioptions=aAc
@@ -524,6 +531,7 @@
 
             " Quick access to file/rec search
             nnoremap <leader>p :Denite file/rec<Cr>
+            nnoremap <leader>g :Denite grep<Cr>
 
             call denite#custom#map(
                 \ 'insert',
@@ -551,7 +559,25 @@
             call denite#custom#map(
                 \ 'insert',
                 \ '<C-p>',
-                \ 'denite:map-paste_from_default_register'
+                \ '<denite:map-paste_from_default_register>'
+            \ )
+
+            call denite#custom#map(
+                \ 'insert',
+                \ '<C-s>',
+                \ '<denite:do_action:vsplit>'
+            \ )
+
+            call denite#custom#map(
+                \ 'insert',
+                \ '<C-p>',
+                \ '<denite:move_to_previous_line>'
+            \ )
+
+            call denite#custom#map(
+                \ 'insert',
+                \ '<C-n>',
+                \ '<denite:move_to_next_line>'
             \ )
 
         " }}}
