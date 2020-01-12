@@ -39,8 +39,8 @@
         Plug 'mxw/vim-jsx'
         Plug 'styled-components/vim-styled-components'
 
-        " Denite
-        Plug 'Shougo/denite.nvim'
+        " Navigation
+        Plug 'kien/ctrlp.vim'
 
     call plug#end()
 
@@ -82,18 +82,9 @@
 
         " }}}
 
-        " Denite {{{
+        " CtrlP {{{
 
-            call denite#custom#var('file/rec', 'command',
-            \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-
-            call denite#custom#var('grep', 'command', ['ag'])
-            call denite#custom#var('grep', 'default_opts',
-                    \ ['-i', '--vimgrep'])
-            call denite#custom#var('grep', 'recursive_opts', [])
-            call denite#custom#var('grep', 'pattern_opt', [])
-            call denite#custom#var('grep', 'separator', ['--'])
-            call denite#custom#var('grep', 'final_opts', [])
+            let g:ctrlp_user_command = 'ag %s -l --follow --nocolor -g ""'
 
         " }}}
 
@@ -261,13 +252,12 @@
 " Gui {{{
 
     " Only set this options if graphical vim is running.
-    if has('gui_running')
 
         " Custom font mind the setup is different for macos and linux
         if has( 'macunix' )
             set guifont=HackNerdFontComplete-Regular:h11
         else
-            set guifont=Hack\ Nerd\ Font\ 10
+            set guifont=Hack\ Nerd\ Font:1
         endif
 
         " Enable autoselect in visual and modeless selection and show console
@@ -278,7 +268,6 @@
         set background=light
         colorscheme Tomorrow
 
-    endif
 
 " }}}
 
@@ -525,61 +514,9 @@
 
     " Plugins {{{
 
-        " Denite {{{
-
-            nnoremap <leader>d :Denite
-
-            " Quick access to file/rec search
-            nnoremap <leader>p :Denite file/rec<Cr>
-            nnoremap <leader>g :Denite grep<Cr>
-
-            call denite#custom#map(
-                \ 'insert',
-                \ '<C-a>',
-                \ '<denite:move_caret_to_head>'
-            \)
-            call denite#custom#map(
-                \ 'insert',
-                \ '<C-e>',
-                \ '<denite:move_caret_to_tail>'
-            \)
-
-            call denite#custom#map(
-                \ 'insert',
-                \ '<C-h>',
-                \ '<denite:move_caret_to_left>',
-            \)
-
-            call denite#custom#map(
-                \ 'insert',
-                \ '<C-l>',
-                \ '<denite:move_caret_to_right>',
-            \)
-
-            call denite#custom#map(
-                \ 'insert',
-                \ '<C-p>',
-                \ '<denite:map-paste_from_default_register>'
-            \ )
-
-            call denite#custom#map(
-                \ 'insert',
-                \ '<C-s>',
-                \ '<denite:do_action:vsplit>'
-            \ )
-
-            call denite#custom#map(
-                \ 'insert',
-                \ '<C-p>',
-                \ '<denite:move_to_previous_line>'
-            \ )
-
-            call denite#custom#map(
-                \ 'insert',
-                \ '<C-n>',
-                \ '<denite:move_to_next_line>'
-            \ )
-
+        " CtrlP {{{
+            nnoremap <leader>f :CtrlP<Cr><C-\>w
+            let g:ctrlp_map = '<leader>p'
         " }}}
 
     " }}}
