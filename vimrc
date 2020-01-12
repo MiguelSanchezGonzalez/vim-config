@@ -40,7 +40,8 @@
         Plug 'styled-components/vim-styled-components'
 
         " Navigation
-        Plug 'kien/ctrlp.vim'
+        Plug 'ctrlpvim/ctrlp.vim'
+        Plug 'ddrscott/vim-side-search'
 
     call plug#end()
 
@@ -85,6 +86,13 @@
         " CtrlP {{{
 
             let g:ctrlp_user_command = 'ag %s -l --follow --nocolor -g ""'
+
+        " }}}
+
+        " SideSearch {{{
+
+            let g:side_search_split_pct = 0.25
+            let g:side_search_splitter = 'new'
 
         " }}}
 
@@ -515,8 +523,16 @@
     " Plugins {{{
 
         " CtrlP {{{
-            nnoremap <leader>f :CtrlP<Cr><C-\>w
-            let g:ctrlp_map = '<leader>p'
+
+            nnoremap <leader>f :let g:ctrlp_default_input = expand('<cword>')<Cr>:CtrlP<Cr>
+            nnoremap <leader>p :let g:ctrlp_default_input = ''<Cr>:CtrlP<Cr>
+
+        " }}}
+
+        " SideSearch {{{
+        "
+            nnoremap <Leader>g :SideSearch <C-r><C-w><CR> | wincmd p
+
         " }}}
 
     " }}}
