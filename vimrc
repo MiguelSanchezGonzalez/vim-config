@@ -86,11 +86,12 @@
         " CtrlP {{{
 
             let g:ctrlp_user_command = 'ag %s -l --follow --nocolor -g ""'
+            let g:ctrlp_use_caching = 0
 
         " }}}
 
         " SideSearch {{{
-
+    
             let g:side_search_split_pct = 0.25
             let g:side_search_splitter = 'new'
 
