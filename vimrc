@@ -269,14 +269,15 @@
             set guifont=Hack\ Nerd\ Font:1
         endif
 
-        " Enable autoselect in visual and modeless selection and show console
-        " dialogs instead of popups.
-        set guioptions=aAc
+        if has( 'gui_running' )
+            " Enable autoselect in visual and modeless selection and show console
+            " dialogs instead of popups.
+            set guioptions=aAc
 
-        " Actual colorscheme
-        set background=light
-        colorscheme Tomorrow
-
+            " Actual colorscheme
+            set background=light
+            colorscheme Tomorrow
+        endif
 
 " }}}
 
