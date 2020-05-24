@@ -260,24 +260,23 @@
 
 " Gui {{{
 
+    " Custom font mind the setup is different for macos and linux
+    if has( 'macunix' )
+        set guifont=HackNerdFontComplete-Regular:h11
+    else
+        set guifont=Hack\ Nerd\ Font:1
+    endif
+
+    " Actual colorscheme
+    set background=light
+    colorscheme Tomorrow
+
     " Only set this options if graphical vim is running.
-
-        " Custom font mind the setup is different for macos and linux
-        if has( 'macunix' )
-            set guifont=HackNerdFontComplete-Regular:h11
-        else
-            set guifont=Hack\ Nerd\ Font:1
-        endif
-
-        if has( 'gui_running' )
-            " Enable autoselect in visual and modeless selection and show console
-            " dialogs instead of popups.
-            set guioptions=aAc
-
-            " Actual colorscheme
-            set background=light
-            colorscheme Tomorrow
-        endif
+    if has( 'gui_running' )
+        " Enable autoselect in visual and modeless selection and show console
+        " dialogs instead of popups.
+        set guioptions=aAc
+    endif
 
 " }}}
 
