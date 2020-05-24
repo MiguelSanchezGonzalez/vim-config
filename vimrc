@@ -61,7 +61,9 @@
             endif
 
             " Enable the powerline symbols
-            let g:airline_powerline_fonts = 1
+            if !empty($DISPLAY)
+                let g:airline_powerline_fonts = 1
+            endif
 
             " Extensions - Whitespce
             let g:airline#extensions#whitespace#checks = [ 'indent',
@@ -91,7 +93,7 @@
         " }}}
 
         " SideSearch {{{
-    
+
             let g:side_search_split_pct = 0.25
             let g:side_search_splitter = 'new'
 
@@ -258,7 +260,7 @@
 " }}}
 
 
-" Gui {{{
+" Colorscheme {{{
 
     " Custom font mind the setup is different for macos and linux
     if has( 'macunix' )
@@ -267,9 +269,20 @@
         set guifont=Hack\ Nerd\ Font:1
     endif
 
-    " Actual colorscheme
-    set background=light
-    colorscheme Tomorrow
+    " Sets a better default for the TTY environment
+    if empty( $DISPLAY )
+        set background=dark
+        colorscheme industry
+    else
+        set background=light
+        colorscheme Tomorrow
+    endif
+
+    " Forces the terminal colors to be 256. This solves some issues when vim is
+    " running inside tmux
+    if !has( 'gui_running' )
+        set t_Co=256
+    endif
 
     " Only set this options if graphical vim is running.
     if has( 'gui_running' )
